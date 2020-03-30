@@ -1,5 +1,8 @@
 package com.mask.maskdemoserver.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 import java.io.Serializable;
 
 /**
@@ -7,51 +10,53 @@ import java.io.Serializable;
  * @CreateTime: 2020-03-06 16:28
  * @Description: 返回实体
  */
-public class ResponseMessage<T> implements Serializable {
+@ApiModel(description = "响应结果")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
+public class ResponseMessage implements Serializable {
     private static final long serialVersionUID = -8590551160540335055L;
-    private String code = "200";
-    private String message = "success";
-    private T data;
+    private String code;
+    private String message;
+    private Object data;
+    private boolean success;
+    private long timestamp;
 
     public ResponseMessage() {
+        this.code = ResponseStatus.OK.getCode();
+        this.message = ResponseStatus.OK.getMessage();
+        this.data = null;
+        this.success = true;
+        this.timestamp = System.currentTimeMillis();
     }
 
-    public ResponseMessage<T> code(String code) {
-        this.code = code;
-        return this;
+    public static ResponseMessage ok() {
+        return new ResponseMessage();
     }
 
-    public ResponseMessage<T> message(String message) {
+    public ResponseMessage ok(String message) {
         this.message = message;
         return this;
     }
 
-    public ResponseMessage<T> data(T data) {
+    public ResponseMessage ok(Object data) {
         this.data = data;
         return this;
     }
 
-    public static <T> ResponseMessage<T> OK() {
-        return OK(null);
+    public ResponseMessage error(ResponseStatus status) {
+        this.message = status.getMessage();
+        this.code = status.getCode();
+        return this;
     }
 
-    public static <T> ResponseMessage<T> OK(T data) {
-        return new ResponseMessage<T>().code(ResponseStatus.OK.getCode()).message(ResponseStatus.OK.getMessage()).data(data);
+    public static ResponseMessage error() {
+        return new ResponseMessage().error(ResponseStatus.ERROR);
     }
 
-    public static <T> ResponseMessage<T> ERROR() {
-        return ERROR(ResponseStatus.ERROR);
+    public ResponseMessage error(String message) {
+        ResponseMessage responseMessage = ResponseMessage.error();
+        responseMessage.setMessage(message);
+        return responseMessage;
     }
 
-    public static <T> ResponseMessage<T> ERROR(ResponseStatus status) {
-        return ERROR(status,null);
-    }
-
-    public static <T> ResponseMessage<T> ERROR(ResponseStatus status, T data) {
-        ResponseMessage<T> res = new ResponseMessage<>();
-        res.code(status.getCode());
-        res.message(status.getMessage());
-        res.data(data);
-        return res;
-    }
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 @Configuration
-public class CaptchaConfig {
+public class CaptchaConfigure {
 
     @Bean
     public DefaultKaptcha producer() {
