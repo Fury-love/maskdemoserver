@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mask.maskdemoserver.domains.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 
 /**
@@ -34,10 +34,15 @@ public class User extends BaseEntity {
     @TableField("login_name")
     private String loginName;
     /**
-     * 用户登录名
+     * 用户昵称
      */
     @TableField("nickname")
     private String nickname;
+    /**
+     * 用户姓名
+     */
+    @TableField("realname")
+    private String realName;
     /**
      * 用户登录密码
      */
@@ -47,7 +52,7 @@ public class User extends BaseEntity {
      * 用户状态
      */
     @TableField("status")
-    private int status;
+    private Integer status;
     /**
      * 手机号
      */
@@ -57,7 +62,7 @@ public class User extends BaseEntity {
      * 用户性别
      */
     @TableField("gender")
-    private int gender;
+    private Integer gender;
     /**
      * 用户头像
      */
@@ -67,7 +72,7 @@ public class User extends BaseEntity {
      * 微信用户openid
      */
     @TableField("wxid")
-    private int wxid;
+    private Integer wxid;
     /**
      * 收益
      */
@@ -87,7 +92,7 @@ public class User extends BaseEntity {
      * 生日
      */
     @TableField("birth")
-    private Date birth;
+    private String birth;
     /**
      * 邮件
      */

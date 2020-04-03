@@ -14,10 +14,10 @@ import com.mask.maskdemoserver.service.user_service.UserMapper;
 import com.mask.maskdemoserver.service.user_service.UserService;
 import com.mask.maskdemoserver.utils.CommonUtils;
 import com.mask.maskdemoserver.utils.JWTUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
 import java.util.Map;
 
 import static com.mask.maskdemoserver.common.ResponseStatus.*;
@@ -32,6 +32,8 @@ import static com.mask.maskdemoserver.utils.CommonUtils.encryptToMD5;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     private final CaptchaService captchaService;
     private final TokenService tokenService;
+    @Autowired
+    private UserMapper userMapper;
 
     public UserServiceImpl(CaptchaService captchaService, TokenService tokenService) {
         this.captchaService = captchaService;
@@ -117,6 +119,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseMessage updateUserInfo(User user) {
         ResponseMessage responseMessage = new ResponseMessage();
         try{
+            if(this.count(new QueryWrapper<User>().eq("nickname", user.getNickname())) > 0){
+                return responseMessage.error(FAILD_1009);
+            }
             this.updateById(user);
             responseMessage.setData(findByUserName(user.getLoginName()));
         }catch (MyException e){

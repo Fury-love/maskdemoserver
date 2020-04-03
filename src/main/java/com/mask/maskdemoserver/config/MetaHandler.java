@@ -34,7 +34,7 @@ public class MetaHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.setFieldValByName("updateTime", DateUtils.getTimeNow(), metaObject);
+        this.setFieldValByName("updatedTime", DateUtils.getTimeNow(), metaObject);
 
     }
 

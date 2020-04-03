@@ -16,7 +16,8 @@ public enum ResponseStatus {
     FAILD_1005("1005","注册失败"),
     FAILD_1006("1006","登录失败"),
     FAILD_1007("1007","此账号不存在"),
-    FAILD_1008("1008","验证过期，请重新登录");
+    FAILD_1008("1008","验证过期，请重新登录"),
+    FAILD_1009("1009","名称已被使用，请重新输入");
 
 
     private final String code;
